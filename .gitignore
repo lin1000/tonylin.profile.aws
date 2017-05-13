@@ -3,3 +3,10 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+!.elasticbeanstalk/config.yml
+
+#virtualenv
+include/*
+lib/
+bin/
+.Python
