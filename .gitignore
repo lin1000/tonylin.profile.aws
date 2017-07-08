@@ -10,3 +10,9 @@ include/*
 lib/
 bin/
 .Python
+
+#logs
+*.log
+
+#IDE
+.vscode/*

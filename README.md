@@ -11,7 +11,8 @@ Rquired Use Case
 
 Optional Featuresa
 - [] Support for Google Search Console 
-- [] SocketIO listener to respond to realtime api traffic visualization
+- [] SocketIO Server to listen realtime api traffics
+- [] add 2017_api_traffic_demo page that visualize the api traffics
 
 Python Version 
 
