@@ -2,6 +2,8 @@ branch-defaults:
   default:
     environment: tonylin
     group_suffix: null
+  master:
+    environment: tonylin
 global:
   application_name: taipeilin1001
   branch: null
