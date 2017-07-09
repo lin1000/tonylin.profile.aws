@@ -53,15 +53,18 @@ def handle_2017_api_traffic_demo_register_api(json):
     #Then visualize the traffic on a Ajax HTML page to demonstrate it.
     print 'received json: {%s}' % (str(json))
     logging.info("received json: {myjson}".format(myjson=str(json)))
-    socketio.emit('2017_api_traffic_demo_register_api_push', {'api_name': json['api_name']})
+    socketio.emit('2017_api_traffic_demo_register_api_push', json)
 
 @application.route("/2017_api_traffic_demo")
 def route_2017_api_traffic_demo():
     return render_template('2017_api_traffic_demo.html', \
-        events=["2017_api_traffic_demo_register_api",\
-                "2017_api_traffic_demo_register_api_push",\
-                "2017_api_traffic_demo_track_api",\
-                "2017_api_traffic_demo_track_api_push"])
+        events=[["2017_api_traffic_demo_register_api", {"api_name":"OrderUberEATS"}],\
+                ["2017_api_traffic_demo_register_api_push", {"api_name":"OrderUberEATS"}],\
+                ["2017_api_traffic_demo_track_api_start", {"call_id":"00000001","to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
+                ["2017_api_traffic_demo_track_api_start_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
+                ["2017_api_traffic_demo_track_api_end", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
+                ["2017_api_traffic_demo_track_api_end_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}]\
+                ])
 
 # run the app.
 if __name__ == "__main__":
