@@ -1,5 +1,9 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
+from jinja2 import Environment
+import jinja2
+from datetime import datetime
+import simplejson
 import logging
 import sys
 
@@ -10,6 +14,13 @@ elif(len(sys.argv) == 2 and sys.argv[1]=='local'):
 else:
     print "python application.py [local]"
     sys.exit(1)
+
+#jinja2 template environment settings
+def to_json(value):
+    return simplejson.dumps(value)
+
+jinja2.filters.FILTERS['to_json'] = to_json
+
 
 # print a nice greeting.
 def say_hello(username = "World"):
@@ -55,16 +66,49 @@ def handle_2017_api_traffic_demo_register_api(json):
     logging.info("received json: {myjson}".format(myjson=str(json)))
     socketio.emit('2017_api_traffic_demo_register_api_push', json)
 
+@socketio.on('2017_api_traffic_demo_track_api_start')
+def handle_2017_api_traffic_demo_track_api_start(json):
+    #Inbox of API Traffic and stored into a temp storage space or streaming container
+    #Then visualize the traffic on a Ajax HTML page to demonstrate it.
+    start_ts = datetime.utcnow().strftime("%s")
+    print 'received json: {%s}' % (str(json))
+    logging.info("received json: {myjson} at {datetime}".format(myjson=str(json),datetime=start_ts))
+    json['timestamp'] = start_ts
+    socketio.emit('2017_api_traffic_demo_track_api_start_push', json)
+
+@socketio.on('2017_api_traffic_demo_track_api_end')
+def handle_2017_api_traffic_demo_track_api_end(json):
+    #Inbox of API Traffic and stored into a temp storage space or streaming container
+    #Then visualize the traffic on a Ajax HTML page to demonstrate it.
+    start_ts = datetime.utcnow().strftime("%s")
+    print 'received json: {%s}' % (str(json))
+    logging.info("received json: {myjson} at {datetime}".format(myjson=str(json),datetime=start_ts))
+    json['timestamp'] = start_ts
+    socketio.emit('2017_api_traffic_demo_track_api_end_push', json)
+
+
 @application.route("/2017_api_traffic_demo")
 def route_2017_api_traffic_demo():
     return render_template('2017_api_traffic_demo.html', \
         events=[["2017_api_traffic_demo_register_api", {"api_name":"OrderUberEATS"}],\
                 ["2017_api_traffic_demo_register_api_push", {"api_name":"OrderUberEATS"}],\
                 ["2017_api_traffic_demo_track_api_start", {"call_id":"00000001","to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
-                ["2017_api_traffic_demo_track_api_start_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
+                ["2017_api_traffic_demo_track_api_start_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync", "timestamp":"1499863498"}],\
                 ["2017_api_traffic_demo_track_api_end", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
-                ["2017_api_traffic_demo_track_api_end_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}]\
+                ["2017_api_traffic_demo_track_api_end_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync", "timestamp":"1499863499"}]\
                 ])
+
+@application.route("/2017_api_traffic_demo_2")
+def route_2017_api_traffic_demo_2():
+    return render_template('2017_api_traffic_demo_2.html', \
+        events=[["2017_api_traffic_demo_register_api", {"api_name":"OrderUberEATS"}],\
+                ["2017_api_traffic_demo_register_api_push", {"api_name":"OrderUberEATS"}],\
+                ["2017_api_traffic_demo_track_api_start", {"call_id":"00000001","to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
+                ["2017_api_traffic_demo_track_api_start_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync", "timestamp":"1499863498"}],\
+                ["2017_api_traffic_demo_track_api_end", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
+                ["2017_api_traffic_demo_track_api_end_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync", "timestamp":"1499863498"}]\
+                ])                
+
 
 # run the app.
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ Tony Lin's Profile build on python and flask on aws
 ## Optional Feature
 - [ ] Support for Google Search Console 
 - [x] add [2017_api_traffic_demo] page and add SocketIO Server to listen realtime api traffics
-- [x] on [2017_api_traffic_demo] page that visualize the api traffics using sankey diagram
+- [x] on [2017_api_traffic_demo] page that visualize the api traffics using sankey diagram (the sankey diagram come from reference section)
 
 
 ## References
@@ -20,3 +20,4 @@ Tony Lin's Profile build on python and flask on aws
 [python 2.7]
 
 [data-flow-graph](https://github.com/macbre/data-flow-graph/blob/master/docs/index.html) is a great candidate for visualize api traffic
+[sankey diagram](http://bl.ocks.org/cfergus/raw/3956043/)

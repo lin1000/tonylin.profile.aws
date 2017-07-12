@@ -66,24 +66,49 @@
       $(document).ready(function() {
         sankey = new Sankey();
       
-        sankey.stack(0,["Top","Bottom","Even lower than bottom"]);
+        sankey.stack(0,["Top","Bottom","Even lower than bottom","temp"]);
         sankey.stack(1,["Merge"]);
         sankey.stack(2,["Good","Bad","Indifferent","Not even indifferent"]);
-      
-        sankey.setData([["Top",100,"Merge"],["Bottom",50,"Merge"],["Even lower than bottom",30,"Merge"],["Merge",70,"Good"],["Merge",110,"Bad"]]);
+        sankey.stack(3,["test","test2","test3"]);
+        
+        sankey.setData([["Good",10,"test"],["Good",20,"test2"],["Top",30,"test3"],["Good",50,"test"]]);
+        sankey.setData([["Bottom",50,"Merge"],["Even lower than bottom",30,"Merge"],["Merge",70,"Good"],["Merge",110,"Bad"]]);
+
+        //apiColors["Merge"]={"Merge":"#276040"};
+        
+        
         sankey.setBubbles([["Bad",200]]);
         sankey.draw();
-      
+
+        for (_i = 0, _len = sankey.line_array.length; _i < _len; _i++) {
+            line = sankey.line_array[_i];
+            //alert(line.left_box.name + "--->" + "line.right_box.name" + " color:" + line.colour) ;
+            //do some calculation on colors
+            sankey.recolour(line,"#276040");
+        }
+        var count = 0;
         setTimeout( function() {
+
+          var apiColors = [];
+          apiColors["Merge"]={"Merge":"#276040"};         
+          //sankey.setColors({"Merge":"#276040","Top":"#276040"});   
           sankey.updateData([
             ["Top",10,"Merge"],
             ["Even lower than bottom",0,"Merge"],
-            ["Merge",10,"Good"],
+            ["Merge",100,"Good"],
             ["Merge",30,"Bad"],
             ["Merge",10,"Indifferent"],
-            ["Merge",10,"Not even indifferent"]
+            ["Merge",100,"Not even indifferent"],
+            ["temp",100,"Merge"]
           ]);
           sankey.setBubbles([["Bad",100]]);
+          sankey.setBubbles([["Good",1000]]);
+            for (_i = 0, _len = sankey.line_array.length; _i < _len; _i++) {
+                line = sankey.line_array[_i];
+                //alert(line.left_box.name + "--->" + "line.right_box.name" + " color:" + line.colour) ;
+                //do some calculation on colors
+                sankey.recolour(line,"#276040");
+            }                  
           sankey.redraw();        
         },1000)
     });
