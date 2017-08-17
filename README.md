@@ -16,6 +16,10 @@ To build my personal profile on python and flask standing on AWS ElasticBeanstal
 - [AWS] on [2017_api_traffic_demo] page that visualize the api traffics using sankey diagram (the sankey diagram come from reference section)
 
 
+## Discovering Innovative 3rd Party Services
+
+- [_] keen.io : event streaming and collecting
+
 ## References
 
 [python 2.7]
