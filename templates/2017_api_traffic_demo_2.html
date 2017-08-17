@@ -289,7 +289,6 @@
 
         register_call_id_to_index(event.call_id,event.timestamp);
         var _result = get_call_id_to_index(event.call_id);
-        alert("_result.idx="+_result.idx + " _result.timestamp="+_result.timestamp);
         var link = new Object();
         link.target_api_name = event.to_api_name;
         link.target = get_api_to_index(event.to_api_name);

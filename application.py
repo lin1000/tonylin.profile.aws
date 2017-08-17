@@ -42,8 +42,12 @@ application.jinja_env.line_statement_prefix = '#'
 socketio = SocketIO(application)
 
 # add a rule for the index page.
-application.add_url_rule('/', 'index', (lambda: header_text +
-    say_hello() + instructions + footer_text))
+#application.add_url_rule('/', 'index', (lambda: header_text +
+#    say_hello() + instructions + footer_text))
+
+@application.route("/index")
+def index():
+    return render_template('index.html')
 
 # add a rule when the page is accessed with a name appended to the site
 # URL.
