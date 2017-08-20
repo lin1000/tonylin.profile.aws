@@ -17,10 +17,17 @@ To build my personal profile on python and flask standing on AWS ElasticBeanstal
 - [AWS] add [2017_api_traffic_demo] page and add SocketIO Server to listen realtime api traffics
 - [AWS] on [2017_api_traffic_demo] page that visualize the api traffics using sankey diagram (the sankey diagram come from reference section)
 
+## Fuctional feature (will protomote to Use Case Section after completion)
 
-## Discovering Innovative 3rd Party Services
+- [x] Use boto (a python package) to access S3 bucket
+- [x] keen.io : event streaming and collecting
 
-- [_] keen.io : event streaming and collecting
+
+## something worth to memo while experimenting
+
+- [x] Understand .ebextensions like configuration management feature to customize environment declaratively  
+- [x] Protect IAM key/secret using **eb setenv (or software configuration in environment variable section) **, then access env variable in python code
+- [x] requirements.txt only work after **git push** then eb deploy 
 
 ## References
 
