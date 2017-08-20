@@ -7,9 +7,10 @@ To build my personal profile on python and flask standing on AWS ElasticBeanstal
 
 ## Rquired Use Case (GCP / AWS)
 
-- [GCP] A landing page using bootstrap
-- [GCP] Embed linkedin widet on the landing page
-- [GCP] Add a tech section to experiement on new stuff  
+- [ ] A landing page using bootstrap
+- [ ] Embed linkedin widet on the landing page
+- [ ] Add a tech section to experiement on new stuff  
+- [ ] and more ...
 
 ## Optional Feature
 
