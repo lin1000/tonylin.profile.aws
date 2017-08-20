@@ -1,14 +1,17 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
+from flask.json import jsonify
 from jinja2 import Environment
 import jinja2
 from datetime import datetime
 import simplejson
 import logging
 import sys
+import os
+from boto.s3.connection import S3Connection
 
 if(len(sys.argv) == 1 ):
-    logging.basicConfig(filename='/opt/python/log/myapplication.log', level=logging.DEBUG)
+    logging.basicConfig(filename='/opt/python/log/myappl    ication.log', level=logging.DEBUG)
 elif(len(sys.argv) == 2 and sys.argv[1]=='local'):
     logging.basicConfig(filename='myapplication.log', level=logging.DEBUG)
 else:
@@ -53,6 +56,22 @@ def index():
 # URL.
 application.add_url_rule('/<username>', 'hello', (lambda username:
     header_text + say_hello(username) + home_link + footer_text))
+
+
+
+@application.route("/s3")
+def myS3():
+    """
+        list s3 buckets 
+    """
+    AWS_KEY = os.environ.get('awsappkey')
+    AWS_SECRET = os.environ.get('awsappsecret')
+    aws_connection = S3Connection(AWS_KEY, AWS_SECRET)
+    bucket = aws_connection.get_bucket('lin1000')
+    file_list = []
+    for file_key in bucket.list():
+        file_list.append(file_key.name)
+    return jsonify({'file_list': file_list}) 
 
 @socketio.on('message')
 def handle_message(message):

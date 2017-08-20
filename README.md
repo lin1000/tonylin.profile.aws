@@ -11,7 +11,6 @@ To build my personal profile on python and flask standing on AWS ElasticBeanstal
 - [GCP] Embed linkedin widet on the landing page
 - [GCP] Add a tech section to experiement on new stuff  
 
-
 ## Optional Feature
 
 - [ ] Support for Google Search Console 
