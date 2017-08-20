@@ -15,8 +15,8 @@ To build my personal profile on python and flask standing on AWS ElasticBeanstal
 ## Optional Feature
 
 - [ ] Support for Google Search Console 
-- [AWS] add [2017_api_traffic_demo] page and add SocketIO Server to listen realtime api traffics
-- [AWS] on [2017_api_traffic_demo] page that visualize the api traffics using sankey diagram (the sankey diagram come from reference section)
+- [x] add [2017_api_traffic_demo] page and add SocketIO Server to listen realtime api traffics
+- [x] on [2017_api_traffic_demo] page that visualize the api traffics using sankey diagram (the sankey diagram come from reference section)
 
 ## Fuctional feature (will protomote to Use Case Section after completion)
 
