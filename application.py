@@ -47,36 +47,35 @@ socketio = SocketIO(application)
 oauth = OAuth(application)
 
 #linkedin
-linkedin = oauth.remote_app(
-    'linkedin',
-    consumer_key=os.environ.get('linkedinappkey')
-    consumer_secret=os.environ.get('linkedinappsecret'),
-    request_token_params={
-        'scope': 'r_basicprofile',
-        'state': 'RandomString',
-    },
-    base_url='https://api.linkedin.com/v1/',
-    request_token_url=None,
-    access_token_method='POST',
-    access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',
-    authorize_url='https://www.linkedin.com/uas/oauth2/authorization',
-)
+linkedin = oauth.remote_app(\
+    'linkedin',\
+    consumer_key=os.environ.get('linkedinappkey'),\
+    consumer_secret=os.environ.get('linkedinappsecret'),\
+    request_token_params={\
+        'scope': 'r_basicprofile',\
+        'state': 'RandomString',\
+    },\
+    base_url='https://api.linkedin.com/v1/',\
+    request_token_url=None,\
+    access_token_method='POST',\
+    access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',\
+    authorize_url='https://www.linkedin.com/uas/oauth2/authorization')
 
 @application.route("/index")
 def index():
     return render_template('index.html')
 
-@app.route('/login')
+@application.route('/login')
 def login():
     return linkedin.authorize(callback=url_for('authorized', _external=True))
 
-@app.route('/logout')
+@application.route('/logout')
 def logout():
     session.pop('linkedin_token', None)
     return redirect(url_for('index'))
 
 
-@app.route('/login/authorized')
+@application.route('/login/authorized')
 def authorized():
     resp = linkedin.authorized_response()
     if resp is None:
