@@ -17,11 +17,13 @@ To build my personal profile on python and flask standing on AWS ElasticBeanstal
 - [ ] Support for Google Search Console 
 - [x] add [2017_api_traffic_demo] page and add SocketIO Server to listen realtime api traffics
 - [x] on [2017_api_traffic_demo] page that visualize the api traffics using sankey diagram (the sankey diagram come from reference section)
+- [ ] Integrate with LinkedIn API to retrive my working experiences
 
 ## Fuctional feature (will protomote to Use Case Section after completion)
 
 - [x] Use boto (a python package) to access S3 bucket
 - [x] keen.io : event streaming and collecting
+- [] 
 
 
 ## something worth to memo while experimenting
@@ -35,3 +37,4 @@ To build my personal profile on python and flask standing on AWS ElasticBeanstal
 [python 2.7]
 [data-flow-graph](https://github.com/macbre/data-flow-graph/blob/master/docs/index.html) is a great candidate for visualize api traffic
 [sankey diagram](http://bl.ocks.org/cfergus/raw/3956043/)
+[Flask-OAuthlib](https://github.com/lepture/flask-oauthlib)

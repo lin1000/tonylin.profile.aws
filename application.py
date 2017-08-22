@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, session, request
 from flask_socketio import SocketIO
 from flask.json import jsonify
+from flask_oauthlib.client import OAuth
 from jinja2 import Environment
 import jinja2
 from datetime import datetime
@@ -43,21 +44,55 @@ application = Flask(__name__)
 application.config['SECRET_KEY'] = 'secret!'
 application.jinja_env.line_statement_prefix = '#'
 socketio = SocketIO(application)
+oauth = OAuth(application)
 
-# add a rule for the index page.
-#application.add_url_rule('/', 'index', (lambda: header_text +
-#    say_hello() + instructions + footer_text))
+#linkedin
+linkedin = oauth.remote_app(
+    'linkedin',
+    consumer_key=os.environ.get('linkedinappkey')
+    consumer_secret=os.environ.get('linkedinappsecret'),
+    request_token_params={
+        'scope': 'r_basicprofile',
+        'state': 'RandomString',
+    },
+    base_url='https://api.linkedin.com/v1/',
+    request_token_url=None,
+    access_token_method='POST',
+    access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',
+    authorize_url='https://www.linkedin.com/uas/oauth2/authorization',
+)
 
 @application.route("/index")
 def index():
     return render_template('index.html')
 
+@app.route('/login')
+def login():
+    return linkedin.authorize(callback=url_for('authorized', _external=True))
+
+@app.route('/logout')
+def logout():
+    session.pop('linkedin_token', None)
+    return redirect(url_for('index'))
+
+
+@app.route('/login/authorized')
+def authorized():
+    resp = linkedin.authorized_response()
+    if resp is None:
+        return 'Access denied: reason=%s error=%s' % (
+            request.args['error_reason'],
+            request.args['error_description']
+        )
+    session['linkedin_token'] = (resp['access_token'], '')
+    me = linkedin.get('people/~')
+    return jsonify(me.data)
+
+
 # add a rule when the page is accessed with a name appended to the site
 # URL.
 application.add_url_rule('/<username>', 'hello', (lambda username:
     header_text + say_hello(username) + home_link + footer_text))
-
-
 
 @application.route("/s3")
 def myS3():
