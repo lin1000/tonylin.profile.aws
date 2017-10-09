@@ -87,6 +87,10 @@ def authorized():
     me = linkedin.get('people/~')
     return jsonify(me.data)
 
+@linkedin.tokengetter
+def get_linkedin_oauth_token():
+    return session.get('linkedin_token')
+
 
 # add a rule when the page is accessed with a name appended to the site
 # URL.
@@ -166,6 +170,18 @@ def route_2017_api_traffic_demo_2():
                 ["2017_api_traffic_demo_track_api_end_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync", "timestamp":"1499863498"}]\
                 ])                
 
+def change_linkedin_query(uri, headers, body):
+    auth = headers.pop('Authorization')
+    headers['x-li-format'] = 'json'
+    if auth:
+        auth = auth.replace('Bearer', '').strip()
+        if '?' in uri:
+            uri += '&oauth2_access_token=' + auth
+        else:
+            uri += '?oauth2_access_token=' + auth
+    return uri, headers, body
+
+linkedin.pre_request = change_linkedin_query
 
 # run the app.
 if __name__ == "__main__":
