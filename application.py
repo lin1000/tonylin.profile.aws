@@ -61,6 +61,7 @@ linkedin = oauth.remote_app(\
     access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',\
     authorize_url='https://www.linkedin.com/uas/oauth2/authorization')
 
+@application.route("/")
 @application.route("/index")
 def index():
     start_ts = datetime.utcnow().strftime("%s")
