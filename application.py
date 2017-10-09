@@ -99,7 +99,7 @@ def get_linkedin_oauth_token():
     print "==="
     print session.get('linkedin_token')
     #return session.get('linkedin_token')
-    return (u   'AQUCjDjzlEYGC3BAi-0rWLjnHlwJgaJqMLWvsUVo0g2KWrLwG3iJrllJ4J7t9DWe9-YqsCq90_oGZPXHciL7vKOMxd1frLkkw6ojvM8xhslB83KAc0IJoR0qQqswqKz2evviVqqJKjLcTBEYv8TH3R82m-vYDjczvAD5EsL9frbo7jW-vfk', '')
+    return (u'AQUCjDjzlEYGC3BAi-0rWLjnHlwJgaJqMLWvsUVo0g2KWrLwG3iJrllJ4J7t9DWe9-YqsCq90_oGZPXHciL7vKOMxd1frLkkw6ojvM8xhslB83KAc0IJoR0qQqswqKz2evviVqqJKjLcTBEYv8TH3R82m-vYDjczvAD5EsL9frbo7jW-vfk', '')
 
 def change_linkedin_query(uri, headers, body):
     auth = headers.pop('Authorization')
