@@ -12,7 +12,7 @@ import os
 from boto.s3.connection import S3Connection
 
 if(len(sys.argv) == 1 ):
-    logging.basicConfig(filename='/opt/python/log/myappl    ication.log', level=logging.DEBUG)
+    logging.basicConfig(filename='/opt/python/log/myapplication.log', level=logging.DEBUG)
 elif(len(sys.argv) == 2 and sys.argv[1]=='local'):
     logging.basicConfig(filename='myapplication.log', level=logging.DEBUG)
 else:
@@ -52,7 +52,7 @@ linkedin = oauth.remote_app(\
     consumer_key=os.environ.get('linkedinappkey'),\
     consumer_secret=os.environ.get('linkedinappsecret'),\
     request_token_params={\
-        'scope': 'r_basicprofile',\
+        'scope': ['r_basicprofile','r_emailaddress'],\
         'state': 'RandomString',\
     },\
     base_url='https://api.linkedin.com/v1/',\
@@ -63,7 +63,9 @@ linkedin = oauth.remote_app(\
 
 @application.route("/index")
 def index():
-    return render_template('index.html')
+    start_ts = datetime.utcnow().strftime("%s")
+    logging.info("Access to /index: at {datetime}".format(datetime=start_ts))
+    return render_template('index.html',linkedinappkey=os.environ.get('linkedinappkey'))
 
 @application.route('/login')
 def login():
@@ -84,13 +86,34 @@ def authorized():
             request.args['error_description']
         )
     session['linkedin_token'] = (resp['access_token'], '')
-    me = linkedin.get('people/~')
+    me = linkedin.get('people/~:(id,num-connections,picture-url,headline,summary,positions,picture-urls::(original),email-address)')
+    return jsonify(me.data)
+
+@application.route('/testlinkedin')
+def testlinkedin():
+    me = linkedin.get('people/~:(id,num-connections,picture-url,headline,summary,positions,picture-urls::(original),email-address)')
     return jsonify(me.data)
 
 @linkedin.tokengetter
 def get_linkedin_oauth_token():
-    return session.get('linkedin_token')
+    print "==="
+    print session.get('linkedin_token')
+    #return session.get('linkedin_token')
+    return (u   'AQUCjDjzlEYGC3BAi-0rWLjnHlwJgaJqMLWvsUVo0g2KWrLwG3iJrllJ4J7t9DWe9-YqsCq90_oGZPXHciL7vKOMxd1frLkkw6ojvM8xhslB83KAc0IJoR0qQqswqKz2evviVqqJKjLcTBEYv8TH3R82m-vYDjczvAD5EsL9frbo7jW-vfk', '')
 
+def change_linkedin_query(uri, headers, body):
+    auth = headers.pop('Authorization')
+    headers['x-li-format'] = 'json'
+    if auth:
+        auth = auth.replace('Bearer', '').strip()
+        if '?' in uri:
+            uri += '&oauth2_access_token=' + auth
+        else:
+            uri += '?oauth2_access_token=' + auth
+        print(uri)
+    return uri, headers, body
+
+linkedin.pre_request = change_linkedin_query
 
 # add a rule when the page is accessed with a name appended to the site
 # URL.
@@ -169,19 +192,6 @@ def route_2017_api_traffic_demo_2():
                 ["2017_api_traffic_demo_track_api_end", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync"}],\
                 ["2017_api_traffic_demo_track_api_end_push", {"call_id":"00000001", "to_api_name":"RestaurantAvailability", "from_api_name":"OrderUberEATS", "call_style":"sync", "timestamp":"1499863498"}]\
                 ])                
-
-def change_linkedin_query(uri, headers, body):
-    auth = headers.pop('Authorization')
-    headers['x-li-format'] = 'json'
-    if auth:
-        auth = auth.replace('Bearer', '').strip()
-        if '?' in uri:
-            uri += '&oauth2_access_token=' + auth
-        else:
-            uri += '?oauth2_access_token=' + auth
-    return uri, headers, body
-
-linkedin.pre_request = change_linkedin_query
 
 # run the app.
 if __name__ == "__main__":
