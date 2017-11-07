@@ -38,7 +38,7 @@ To build my personal profile on python and flask standing on AWS ElasticBeanstal
 [data-flow-graph](https://github.com/macbre/data-flow-graph/blob/master/docs/index.html) is a great candidate for visualize api traffic
 [sankey diagram](http://bl.ocks.org/cfergus/raw/3956043/)
 [Flask-OAuthlib](https://github.com/lepture/flask-oauthlib)
-
+[s3fs](https://github.com/s3fs-fuse/s3fs-fuse)
 
 ## Very cool stuff to study
 [Bear 71](https://github.com/nfbinteractive/Bear71VR_OpenSource)
